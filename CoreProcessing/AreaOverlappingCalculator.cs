@@ -13,27 +13,13 @@ namespace CoreProcessing
 
         public bool DoPointsOverlapp(int firstRectangleX, int firstRectangleY, int secondRectangleX, int secondRectangleY)
         {
-            return DoOverlap(   /*first rectangle*/
-                                                new Point(firstRectangleX, firstRectangleY),
-                                                new Point(firstRectangleX + patchSize.Height, firstRectangleY + patchSize.Width),
-                                                /*second rectangle*/
-                                                new Point(secondRectangleX, secondRectangleY),
-                                                new Point(secondRectangleX + patchSize.Height, secondRectangleY + patchSize.Width));
+            return DoOverlap(new Rectangle(firstRectangleX, firstRectangleY, patchSize.Width, patchSize.Height),
+                            new Rectangle(secondRectangleX, secondRectangleY, patchSize.Width, patchSize.Height));
         }
 
-        private static bool DoOverlap(Point l1, Point r1,
-                          Point l2, Point r2)
+        private static bool DoOverlap(Rectangle r1, Rectangle r2)
         {
-            if (l1.X >= r2.X || l2.X >= r1.X)
-            {
-                return false;
-            }
-
-            if (l1.Y <= r2.Y || l2.Y <= r1.Y)
-            {
-                return false;
-            }
-            return true;
+            return r1.IntersectsWith(r2);
         }
     }
 }

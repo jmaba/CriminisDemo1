@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,39 +13,62 @@ namespace CoreProcessing
         private MatrixSize patchSize;
         private readonly AreaOverlappingCalculator areaOverlappingCalculator;
         private readonly BlockCalculator blockCalculator;
-        private readonly int threshold = 0;
+        private readonly Rectangle areaOfInterest;
+
+        public Color fillColorBadArea = Color.Red;
+        public Color potentialRosArea = Color.Yellow;
+        public Color sourceArea = Color.Blue;
+        public Color background = Color.White;
+
         public CriminisiDetector(ImageStructure image, Rectangle areaOfInterest, MatrixSize patchSize)
         {
             this.image = image;
             this.patchSize = patchSize;
-            this.areaOverlappingCalculator = new AreaOverlappingCalculator(patchSize);
-            this.blockCalculator = new BlockCalculator(image, areaOfInterest, patchSize);
+            this.areaOfInterest = areaOfInterest;
+            areaOverlappingCalculator = new AreaOverlappingCalculator(patchSize);
+            blockCalculator = new BlockCalculator(image, areaOfInterest, patchSize);
         }
 
-        public byte[,] ComputeDetectionArea(Color fillColor)
+        public void ComputeDetectionArea()
         {
-            byte ct = 0;
-            var outputImage = new byte[image.Height, image.Width];
+            Bitmap bmp = new Bitmap(image.Height, image.Width);
+            for (int i = 0; i < image.Height; i++)
+            {
+                for (int j = 0; j < image.Width; j++)
+                {
+                    bmp.SetPixel(i, j, background);
+                }
+            }
             ComponentCalculator componentCalculator = new ComponentCalculator();
             var pairingItems = new ConcurrentBag<PairingRegion>();
             var ros = blockCalculator.GetAllBlocksInsideROS().ToList();
+            var allBlocks = blockCalculator.GetAllBlocksInsideImage().ToList();
+
             Parallel.ForEach(ros, itemInROS =>
             {
                 bool foundBestValue = false;
                 double maxValue = 0;
                 (int startingX, int startingY) maxFound = (0, 0);
 
-                foreach (var itemInImage in blockCalculator.GetAllBlocksInsideImage())
+                foreach (var itemInImage in allBlocks)
                 {
                     if (!areaOverlappingCalculator.DoPointsOverlapp(itemInROS.startingX, itemInROS.startingY, itemInImage.startingX, itemInImage.startingY))
                     {
+                        const int X = 5;
                         var resR = ComputeBinarizeAreaDifferences(itemInROS, itemInImage, image.matR);
                         var resG = ComputeBinarizeAreaDifferences(itemInROS, itemInImage, image.matG);
                         var resB = ComputeBinarizeAreaDifferences(itemInROS, itemInImage, image.matB);
-                        var x = ComputeFuzzyMembership(componentCalculator.GetMatchingDegree(resR));
-                        var x2 = ComputeFuzzyMembership(componentCalculator.GetMatchingDegree(resG));
-                        var x3 = ComputeFuzzyMembership(componentCalculator.GetMatchingDegree(resB));
-                        var total = (x + x2 + x3) / 3;
+                        var m1 = componentCalculator.GetMatchingDegree(resR);
+                        if (m1 <= X) continue;
+                        var m2 = componentCalculator.GetMatchingDegree(resG);
+                        if (m2 <= X) continue;
+                        var m3 = componentCalculator.GetMatchingDegree(resB);
+                        if (m3 <= X) continue;
+
+                        var x = ComputeFuzzyMembership(m1);
+                        var x2 = ComputeFuzzyMembership(m2);
+                        var x3 = ComputeFuzzyMembership(m3);
+                        var total = (x + x2 + x3) / 3.0;
                         if (BelongsToCutSet(total))
                         {
                             foundBestValue = true;
@@ -67,17 +91,22 @@ namespace CoreProcessing
                     });
                 }
             });
+
+            Graphics newGraphics = Graphics.FromImage(bmp);
+            newGraphics.DrawRectangle(new Pen(new SolidBrush(potentialRosArea)), areaOfInterest);
+
             foreach (var item in pairingItems)
             {
-                Console.WriteLine($"ROSx {item.StartingPositionROSX}  ROSy {item.StartingPositionROSY} SourceX {item.StartingPositionSourceX} SourceY {item.StartingPositionSourceY}");
+                newGraphics.FillRectangle(new SolidBrush(sourceArea), new Rectangle(item.StartingPositionSourceX, item.StartingPositionSourceY, patchSize.Height, patchSize.Width));
+                newGraphics.FillRectangle(new SolidBrush(fillColorBadArea), new Rectangle(item.StartingPositionROSX, item.StartingPositionROSY, patchSize.Height, patchSize.Width));
             }
-
-            return outputImage;
+            bmp.Save(@"c:\temp\output.jpg", ImageFormat.Jpeg );
+            bmp.Dispose();
         }
 
         private readonly int a = 4;
         private readonly int b = 78;
-        private readonly double lambda = 0.5;
+        private readonly double lambda = 0.35;
         private bool BelongsToCutSet(double fuzzyValue)
         {
             return fuzzyValue >= lambda;

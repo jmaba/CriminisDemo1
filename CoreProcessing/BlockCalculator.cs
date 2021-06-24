@@ -18,9 +18,15 @@ namespace CoreProcessing
 
         public IEnumerable<(int startingX, int startingY)> GetAllBlocksInsideROS()
         {
-            for (int indexROSBlockI = areaOfInterest.X; (indexROSBlockI < areaOfInterest.X + areaOfInterest.Height) && (indexROSBlockI + patchSize.Height < image.Height); indexROSBlockI++)
+            for (int indexROSBlockI = areaOfInterest.X; 
+                    (indexROSBlockI < areaOfInterest.X + areaOfInterest.Height) && 
+                    (indexROSBlockI + patchSize.Height < image.Height) && 
+                    (indexROSBlockI <= areaOfInterest.X + areaOfInterest.Height - patchSize.Height); indexROSBlockI++)
             {
-                for (int indexROSBlockJ = areaOfInterest.Y; (indexROSBlockJ < areaOfInterest.Y + areaOfInterest.Width) && (indexROSBlockJ + patchSize.Width < image.Width); indexROSBlockJ++)
+                for (int indexROSBlockJ = areaOfInterest.Y; 
+                        (indexROSBlockJ < areaOfInterest.Y + areaOfInterest.Width) && 
+                        (indexROSBlockJ + patchSize.Width < image.Width) && 
+                        (indexROSBlockJ <= areaOfInterest.Y + areaOfInterest.Width - patchSize.Width); indexROSBlockJ++)
                 {
                     yield return (indexROSBlockI, indexROSBlockJ);
                 }
