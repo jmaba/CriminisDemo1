@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Emgu.CV" Version="4.5.1.4349" />
+    <PackageReference Include="Emgu.CV.Bitmap" Version="4.5.1.4349" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.5.1.4349" />
+    <PackageReference Include="EmguCV" Version="3.1.0.1" />
+    <PackageReference Include="SkiaSharp" Version="2.80.2" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,13 @@
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\obj\Debug\net5.0\CoreProcessing.csprojAssemblyReference.cache
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\obj\Debug\net5.0\CoreProcessing.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\obj\Debug\net5.0\CoreProcessing.AssemblyInfoInputs.cache
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\obj\Debug\net5.0\CoreProcessing.AssemblyInfo.cs
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\obj\Debug\net5.0\CoreProcessing.csproj.CoreCompileInputs.cache
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\bin\Debug\net5.0\CoreProcessing.deps.json
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\bin\Debug\net5.0\CoreProcessing.dll
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\bin\Debug\net5.0\ref\CoreProcessing.dll
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\bin\Debug\net5.0\CoreProcessing.pdb
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\obj\Debug\net5.0\CoreProcessing.dll
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\obj\Debug\net5.0\ref\CoreProcessing.dll
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\obj\Debug\net5.0\CoreProcessing.pdb
+C:\Users\Adi\source\repos\DemoCriminisiDetection\CoreProcessing\bin\Debug\net5.0\Accord.dll.config
