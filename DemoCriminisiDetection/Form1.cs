@@ -12,11 +12,12 @@ namespace DemoCriminisiDetection
         private BlockCalculator blockCalculator;
         private List<(int startingX, int startingY)> itemROS;
         private int i = 0;
+        private string imageFIlename = @"C:\Source Code\Criminisi\Output1.png";
         public Form1()
         {
             InitializeComponent();
-            pictureBox1.Load(@"C:\Source Code\Criminisi\Output1.png");
-            var image = ImageLoader.LoadImage(@"C:\Source Code\Criminisi\Output1.png");
+            pictureBox1.Load(imageFIlename);
+            var image = ImageLoader.LoadImage(imageFIlename);
             blockCalculator = new BlockCalculator(image, new Rectangle(130, 80, 10, 10), new MatrixSize(9, 9));
             itemROS = blockCalculator.GetAllBlocksInsideROS().ToList(); ;
             timer1.Enabled = true;
@@ -24,16 +25,17 @@ namespace DemoCriminisiDetection
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            var image = ImageLoader.LoadImage(@"C:\Source Code\Criminisi\Output1.png");
+            var image = ImageLoader.LoadImage(imageFIlename);
             var detector = new CriminisiDetector(image, new Rectangle(130, 80, 10, 10), new MatrixSize(9, 9));
             var result = detector.ComputeDetectionArea(Color.Red);
             var stringResult = result.ToMatrixString();
+            Console.WriteLine(stringResult);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             result = false;
-            pictureBox1.Load(@"C:\Source Code\Criminisi\Output1.png");
+            pictureBox1.Load(imageFIlename);
         }
 
         private bool result = false;

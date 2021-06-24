@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -66,53 +67,10 @@ namespace CoreProcessing
                     });
                 }
             });
-            //foreach (var itemInROS in blockCalculator.GetAllBlocksInsideROS())
-            //{
-            //    bool foundBestValue = false;
-            //    double maxValue = 0;
-            //    (int startingX, int startingY) maxFound = (0,0);
-
-            //    foreach (var itemInImage in blockCalculator.GetAllBlocksInsideImage())
-            //    {
-            //        if (!areaOverlappingCalculator.DoPointsOverlapp(itemInROS.startingX, itemInROS.startingY, itemInImage.startingX, itemInImage.startingY))
-            //        {
-            //            var resR = ComputeBinarizeAreaDifferences(itemInROS, itemInImage, image.matR);
-            //            var resG = ComputeBinarizeAreaDifferences(itemInROS, itemInImage, image.matG);
-            //            var resB = ComputeBinarizeAreaDifferences(itemInROS, itemInImage, image.matB);
-            //            var x = ComputeFuzzyMembership(componentCalculator.GetMatchingDegree(resR));
-            //            var x2 = ComputeFuzzyMembership(componentCalculator.GetMatchingDegree(resG));
-            //            var x3 = ComputeFuzzyMembership(componentCalculator.GetMatchingDegree(resB));
-            //            var total = (x + x2 + x3) / 3;
-            //            if(BelongsToCutSet(total))
-            //            {
-            //                foundBestValue = true;
-            //                if (maxValue < total)
-            //                {
-            //                    maxFound = itemInImage;
-            //                    maxValue = total;
-            //                }
-            //            }
-            //        }
-            //    }
-            //    if (foundBestValue)
-            //    {
-            //        ct++;
-            //        //for (int i = itemInROS.startingX; i < itemInROS.startingX + patchSize.Height; i++)
-            //        //{
-            //        //    for (int j = itemInROS.startingY; j < itemInROS.startingY+patchSize.Width; j++)
-            //        //    {
-            //        //        outputImage[i, j] = ct;
-            //        //    }
-            //        //}
-            //        //for (int i = maxFound.startingX; i < maxFound.startingX + patchSize.Height; i++)
-            //        //{
-            //        //    for (int j = maxFound.startingY; j < maxFound.startingY + patchSize.Width; j++)
-            //        //    {
-            //        //        outputImage[i, j] = ct;
-            //        //    }
-            //        //}
-            //    }
-            //}
+            foreach (var item in pairingItems)
+            {
+                Console.WriteLine($"ROSx {item.StartingPositionROSX}  ROSy {item.StartingPositionROSY} SourceX {item.StartingPositionSourceX} SourceY {item.StartingPositionSourceY}");
+            }
 
             return outputImage;
         }
