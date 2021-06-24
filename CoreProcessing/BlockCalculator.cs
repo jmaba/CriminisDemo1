@@ -20,7 +20,7 @@ namespace CoreProcessing
         {
             for (int indexROSBlockI = areaOfInterest.X; (indexROSBlockI < areaOfInterest.X + areaOfInterest.Height) && (indexROSBlockI + patchSize.Height < image.Height); indexROSBlockI++)
             {
-                for (int indexROSBlockJ = areaOfInterest.Y; (indexROSBlockJ < areaOfInterest.Y + areaOfInterest.Width) && (indexROSBlockJ < image.Width - patchSize.Width); indexROSBlockJ++)
+                for (int indexROSBlockJ = areaOfInterest.Y; (indexROSBlockJ < areaOfInterest.Y + areaOfInterest.Width) && (indexROSBlockJ + patchSize.Width < image.Width); indexROSBlockJ++)
                 {
                     yield return (indexROSBlockI, indexROSBlockJ);
                 }

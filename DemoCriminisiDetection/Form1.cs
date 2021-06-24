@@ -17,7 +17,7 @@ namespace DemoCriminisiDetection
             InitializeComponent();
             pictureBox1.Load(@"C:\Source Code\Criminisi\Output1.png");
             var image = ImageLoader.LoadImage(@"C:\Source Code\Criminisi\Output1.png");
-            blockCalculator = new BlockCalculator(image, new Rectangle(85, 160, 20, 20), new MatrixSize(9, 9));
+            blockCalculator = new BlockCalculator(image, new Rectangle(130, 80, 10, 10), new MatrixSize(9, 9));
             itemROS = blockCalculator.GetAllBlocksInsideROS().ToList(); ;
             timer1.Enabled = true;
         }
@@ -25,7 +25,7 @@ namespace DemoCriminisiDetection
         private void btnLoad_Click(object sender, EventArgs e)
         {
             var image = ImageLoader.LoadImage(@"C:\Source Code\Criminisi\Output1.png");
-            var detector = new CriminisiDetector(image, new Rectangle(60, 130, 50, 20), new MatrixSize(9, 9));
+            var detector = new CriminisiDetector(image, new Rectangle(130, 80, 10, 10), new MatrixSize(9, 9));
             var result = detector.ComputeDetectionArea(Color.Red);
             var stringResult = result.ToMatrixString();
         }
