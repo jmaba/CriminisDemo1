@@ -11,7 +11,8 @@ namespace DemoCriminisiDetection
     public partial class Form1 : Form
     {
         private BlockCalculator blockCalculator;
-        private string imageFIlename = @"C:\Source Code\Criminisi\Output1.png";
+        //private string imageFIlename = @"C:\Source Code\Criminisi\Output1.png";
+        private string imageFIlename = @"C:\Users\Adi\Downloads\Image-Inpainting-master\images\house3.bmp";
         public Form1()
         {
             InitializeComponent();
@@ -21,7 +22,8 @@ namespace DemoCriminisiDetection
         private void btnLoad_Click(object sender, EventArgs e)
         {
             var image = ImageLoader.LoadImage(imageFIlename);
-            var detector = new CriminisiDetector(image, new Rectangle(135, 80, 12, 12), new MatrixSize(9, 9));
+            ImageLoader.SaveImage("demo.bmp", image);
+            var detector = new CriminisiDetector(image, new Rectangle(140, 121, 60, 60), new MatrixSize(9, 9));
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 

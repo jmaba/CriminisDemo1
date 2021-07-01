@@ -35,5 +35,26 @@ namespace CoreProcessing
             return imageStructure;
         }
 
+        public static void SaveImage(string filename, ImageStructure imageStructure)
+        {
+            Image<Bgr, Byte> img = new Image<Bgr, byte>(imageStructure.Width, imageStructure.Height);
+            int width = img.Width;
+            int height = img.Height;
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+
+                    img.Data[i, j, 0] = imageStructure.matB[i, j];
+                    img.Data[i, j, 1] = imageStructure.matG[i, j];
+                    img.Data[i, j, 2] = imageStructure.matR[i, j];
+                }
+
+            }
+            var bmp = img.ToBitmap();
+            bmp.Save(filename);
+        }
+
     }
 }

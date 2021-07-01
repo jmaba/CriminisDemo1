@@ -31,12 +31,12 @@ namespace CoreProcessing
 
         public void ComputeDetectionArea()
         {
-            Bitmap bmp = new Bitmap(image.Height, image.Width);
+            Bitmap bmp = new Bitmap(image.Width, image.Height);
             for (int i = 0; i < image.Height; i++)
             {
                 for (int j = 0; j < image.Width; j++)
                 {
-                    bmp.SetPixel(i, j, background);
+                    bmp.SetPixel(j, i, background);
                 }
             }
             ComponentCalculator componentCalculator = new ComponentCalculator();
@@ -44,7 +44,8 @@ namespace CoreProcessing
             var ros = blockCalculator.GetAllBlocksInsideROS().ToList();
             var allBlocks = blockCalculator.GetAllBlocksInsideImage().ToList();
 
-            Parallel.ForEach(ros, itemInROS =>
+            Parallel.ForEach(ros, new ParallelOptions { MaxDegreeOfParallelism = 10 }
+                        , itemInROS =>
             {
                 bool foundBestValue = false;
                 double maxValue = 0;

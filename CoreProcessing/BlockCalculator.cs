@@ -35,9 +35,19 @@ namespace CoreProcessing
 
         public IEnumerable<(int startingX, int startingY)> GetAllBlocksInsideImage()
         {
-            for (int indexSourceBlockI = 0; indexSourceBlockI < image.Height - patchSize.Height; indexSourceBlockI++)
+            const int valueOuterRegion = 20;
+            var startingPointI = areaOfInterest.X - valueOuterRegion;
+            if (startingPointI < 0) startingPointI = 0;
+
+            var startingPointJ = areaOfInterest.Y - valueOuterRegion;
+            if (startingPointJ < 0) startingPointJ = 0;
+
+
+            var endingPointI =  areaOfInterest.X + areaOfInterest.Height + 2*valueOuterRegion < image.Height - patchSize.Height ? areaOfInterest.X + areaOfInterest.Height + 2 * valueOuterRegion : image.Height - patchSize.Height;
+            var endingPointJ = areaOfInterest.Y + areaOfInterest.Width+2*valueOuterRegion<  image.Width - patchSize.Width ? areaOfInterest.Y + areaOfInterest.Width + 2 * valueOuterRegion : image.Width - patchSize.Width;
+            for (int indexSourceBlockI = startingPointI; indexSourceBlockI < endingPointI; indexSourceBlockI++)
             {
-                for (int indexSourceBlockJ = 0; indexSourceBlockJ < image.Width - patchSize.Width; indexSourceBlockJ++)
+                for (int indexSourceBlockJ = startingPointJ; indexSourceBlockJ < endingPointJ; indexSourceBlockJ++)
                 {
                     yield return (indexSourceBlockI, indexSourceBlockJ);
                 }
